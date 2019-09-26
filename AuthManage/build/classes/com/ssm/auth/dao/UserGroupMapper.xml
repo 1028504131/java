@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.auth.dao.UserGroupMapper">
+  <resultMap id="userGroupResultMap" type="com.ssm.auth.vo.UserGroup">
+    <id column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="group_code" jdbcType="VARCHAR" property="groupCode" />
+    <result column="group_desc" jdbcType="VARCHAR" property="groupDesc" />
+    <result column="group_state" jdbcType="INTEGER" property="groupState" />
+  </resultMap>
+  <select id="findAlluserGroup" resultMap="userGroupResultMap" >
+  	select * from user_group 
+  </select>
+  
+  <select id="selectUserGroup" resultMap="userGroupResultMap" >
+  	select * from user_group limit #{limitIndex},#{pageSize}
+  </select>
+</mapper>

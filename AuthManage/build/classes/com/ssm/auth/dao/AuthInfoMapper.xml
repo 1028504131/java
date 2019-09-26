@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.auth.dao.AuthInfoMapper">
+	<resultMap id="AuthResultMap" type="com.ssm.auth.vo.AuthInfo">
+		<id column="auth_id" jdbcType="INTEGER" property="authId" />
+		<result column="parent_id" jdbcType="INTEGER"
+			property="parentId" />
+		<result column="auth_name" jdbcType="VARCHAR"
+			property="authName" />
+		<result column="auth_desc" jdbcType="VARCHAR"
+			property="authDesc" />
+		<result column="auth_grade" jdbcType="INTEGER"
+			property="authGrade" />
+		<result column="auth_type" jdbcType="INTEGER"
+			property="authType" />
+		<result column="auth_url" jdbcType="VARCHAR" property="authUrl" />
+		<result column="auth_code" jdbcType="VARCHAR"
+			property="authCode" />
+		<result column="auth_order" jdbcType="INTEGER"
+			property="authOrder" />
+		<result column="auth_state" jdbcType="INTEGER"
+			property="authState" />
+		<result column="create_by" jdbcType="INTEGER"
+			property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP"
+			property="createTime" />
+		<result column="update_by" jdbcType="INTEGER"
+			property="updateBy" />
+		<result column="update_time" jdbcType="TIMESTAMP"
+			property="updateTime" />
+	</resultMap>
+
+	<select id="fandAuthinfo" resultMap="AuthResultMap">
+		select * from auth_info 
+	</select>
+	<select id="selectAuthByparentId" parameterType="Integer" resultMap="AuthResultMap">
+		select * from auth_info  where parent_id =#{parentId}
+	</select>
+	
+	<update id="disabledAuth"  parameterType="Integer" >
+		update auth_info set auth_state = 0 where auth_id = #{authId}
+	</update>
+	
+	<update id="startAuth"  parameterType="Integer" >
+		update auth_info set auth_state = 1 where auth_id = #{authId}
+	</update>
+	<delete id="deleteAuth" parameterType="Integer">
+		delete from auth_info where auth_id = #{authId}
+	</delete> 
+	<select id="selectauthByUrl" parameterType="String" resultMap="AuthResultMap">
+		select * from auth_info where auth_url = #{authUrl} 
+	</select>
+	<select id="selectauthByName" parameterType="String" resultMap="AuthResultMap">
+		select * from auth_info where auth_name = #{authName} 
+	</select>
+	<insert id="insertAuth" parameterType="AuthInfo" >
+		insert into auth_info 
+		(parent_id, auth_name, auth_desc, auth_grade, auth_type, auth_url, auth_code,create_by)
+		values (#{parentId},#{authName},#{authDesc},#{authGrade},#{authType},#{authUrl},#{authCode},#{createBy})
+	</insert>
+	<update id="updateAuth" parameterType="AuthInfo">
+		update auth_info set auth_desc=#{authDesc} where auth_id = #{authId}
+	</update>
+	<select id="findUserAuth" parameterType="Integer" resultType="Integer" >
+	  	select auth_id from user_auth where user_id=#{userId}
+  	</select>
+	<insert id="insetUserAuth" parameterType="UserAuth">
+		insert into user_auth (user_id,auth_id) values (#{userId},#{authId})
+	</insert>
+	<delete id="deleteUserAuth" parameterType="Integer">
+		delete from user_auth where user_id = #{userId}
+	</delete>
+</mapper>
